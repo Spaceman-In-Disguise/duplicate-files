@@ -1,31 +1,31 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-//#include <stdbool.h>
+#include <stdbool.h>
 
-typedef struct {
+typedef struct File
+{
     char name[128];
     char hashV[33];
     char path[128];
 } File;
 
-typedef struct Node {
+typedef struct Node
+{
     File data;
     struct Node *next;
 } Node;
 
-typedef struct {
+typedef struct Queue
+{
     Node *front;
     Node *rear;
 } Queue;
 
-
-extern void hello();
 extern void initializeQueue();
-//extern bool isQueueEmpty();
+extern bool isQueueEmpty();
 extern void enqueue();
-struct File dequeue();
-struct File peek();
+File dequeue();
+File peek();
 extern void freeQueue();
-
 
 #endif

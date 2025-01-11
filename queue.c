@@ -1,4 +1,4 @@
-//Defining a QUEUE (FIFO) Data Structures to Save the Files Info.
+// Defining a QUEUE (FIFO) Data Structures to Save the Files Info.
 
 #include "queue.h"
 
@@ -7,55 +7,44 @@
 #include <stdbool.h>
 #include <string.h>
 
-void hello(){
-    printf("Hello");
-}
-
-typedef struct {
-    char name[128];
-    char hashV[33];
-    char path[128];
-} File;
-
-typedef struct Node {
-    File data;
-    struct Node *next;
-} Node;
-
-typedef struct {
-    Node *front;
-    Node *rear;
-} Queue;
-
-void initializeQueue(Queue *queue) {
+void initializeQueue(Queue *queue)
+{
     queue->front = NULL;
     queue->rear = NULL;
 }
 
-bool isQueueEmpty(Queue *queue) {
+bool isQueueEmpty(Queue *queue)
+{
     return queue->front == NULL;
 }
 
-void enqueue(Queue *queue, File value) {
+void enqueue(Queue *queue, File value)
+{
     Node *newNode = (Node *)malloc(sizeof(Node));
-    if (newNode == NULL) {
+    if (newNode == NULL)
+    {
         printf("Error: Could not allocate memory for node.\n");
         exit(1);
     }
     newNode->data = value; // Direct copy since members are fixed-size arrays
     newNode->next = NULL;
 
-    if (isQueueEmpty(queue)) {
+    if (isQueueEmpty(queue))
+    {
         queue->front = newNode;
-    } else {
+    }
+    else
+    {
         queue->rear->next = newNode;
     }
     queue->rear = newNode;
 }
 
-File dequeue(Queue *queue) {
+File dequeue(Queue *queue)
+{
     File errorValue = {"", "", ""}; // Error value, all members are empty strings
-    if (isQueueEmpty(queue)) {
+    if (isQueueEmpty(queue))
+    {
         printf("Error: Queue underflow.\n");
         return errorValue;
     }
@@ -65,7 +54,8 @@ File dequeue(Queue *queue) {
 
     queue->front = nodeToRemove->next;
 
-    if (queue->front == NULL) {
+    if (queue->front == NULL)
+    {
         queue->rear = NULL;
     }
 
@@ -73,22 +63,26 @@ File dequeue(Queue *queue) {
     return value;
 }
 
-File peek(Queue *queue) {
+File peek(Queue *queue)
+{
     File errorValue = {"", "", ""}; // Error value, all members are empty strings
-    if (isQueueEmpty(queue)) {
+    if (isQueueEmpty(queue))
+    {
         printf("Error: Queue is empty.\n");
         return errorValue;
     }
     return queue->front->data;
 }
 
-void freeQueue(Queue *queue) {
-    while (!isQueueEmpty(queue)) {
+void freeQueue(Queue *queue)
+{
+    while (!isQueueEmpty(queue))
+    {
         dequeue(queue);
     }
 }
 
-/*
+/* USED TO TEST THE MODULE
 int main() {
     Queue myQueue;
     initializeQueue(&myQueue);
