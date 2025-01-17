@@ -7,6 +7,18 @@
 #include <stdbool.h>
 #include <string.h>
 
+File* createFile(char* name, char* hashV, char* path) {
+    struct File* newFile = (struct File*)malloc(sizeof(struct File));
+    if (newFile == NULL) {
+        fprintf(stderr, "Memory allocation failed!\n");
+        exit(1);
+    }
+    newFile->name = strdup(name); // Allocate memory for name and copy
+    newFile->hashV = strdup(hashV);     // Allocate memory for hashV and copy
+    newFile->path = strdup(path); // Allocate memory for path and copy
+    return newFile;
+}
+
 void initializeQueue(Queue *queue)
 {
     queue->front = NULL;
@@ -79,6 +91,19 @@ void freeQueue(Queue *queue)
     while (!isQueueEmpty(queue))
     {
         dequeue(queue);
+    }
+}
+
+void printQueue(Queue *queue){
+    
+    Node *currentNode = queue->front;
+    File extractedFile;
+    int i = 0;
+    while (!isQueueEmpty(queue)) {
+        File extractedFile = currentNode->data;
+        printf("File %d, Name: %s, Hash: %s, Path: %s\n", i, extractedFile.name, extractedFile.hashV, extractedFile.path);
+        i++;
+        currentNode = currentNode ->next;
     }
 }
 

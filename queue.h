@@ -4,9 +4,9 @@
 
 typedef struct File
 {
-    char name[128];
-    char hashV[33];
-    char path[128];
+    char* name;
+    char* hashV;
+    char* path;
 } File;
 
 typedef struct Node
@@ -21,11 +21,14 @@ typedef struct Queue
     Node *rear;
 } Queue;
 
+
+extern File* createFile();
 extern void initializeQueue();
 extern bool isQueueEmpty();
 extern void enqueue();
-File dequeue();
-File peek();
+extern File dequeue();
+extern File peek();
 extern void freeQueue();
+extern void printQueue();
 
 #endif
