@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-File* createFile(char* name, char* hashV, char* path) {
+File createFile(char* name, char* hashV, char* path) {
     struct File* newFile = (struct File*)malloc(sizeof(struct File));
     if (newFile == NULL) {
         fprintf(stderr, "Memory allocation failed!\n");
@@ -16,7 +16,7 @@ File* createFile(char* name, char* hashV, char* path) {
     newFile->name = strdup(name); // Allocate memory for name and copy
     newFile->hashV = strdup(hashV);     // Allocate memory for hashV and copy
     newFile->path = strdup(path); // Allocate memory for path and copy
-    return newFile;
+    return *newFile;
 }
 
 void initializeQueue(Queue *queue)
@@ -99,7 +99,7 @@ void printQueue(Queue *queue){
     Node *currentNode = queue->front;
     File extractedFile;
     int i = 0;
-    while (!isQueueEmpty(queue)) {
+    while (currentNode != NULL) {
         File extractedFile = currentNode->data;
         printf("File %d, Name: %s, Hash: %s, Path: %s\n", i, extractedFile.name, extractedFile.hashV, extractedFile.path);
         i++;
@@ -112,21 +112,12 @@ int main() {
     Queue myQueue;
     initializeQueue(&myQueue);
 
-    File file1 = {"document.txt", "hash123456789012345678901234567", "/path/to/document.txt"};
-    File file2 = {"image.jpg", "hash98765432109876543210987654321", "/path/to/image.jpg"};
-    File file3 = {"program.exe", "hash45678901234567890123456789012", "/path/to/program.exe"};
+    enqueue(&myQueue, createFile("document.txt", "hash123456789012345678901234567", "/path/to/document.txt"));
+    enqueue(&myQueue, createFile("image.jpg", "hash98765432109876543210987654321", "/path/to/image.jpg"));
+    enqueue(&myQueue, createFile("program.exe", "hash45678901234567890123456789012", "/path/to/program.exe"));
 
-    enqueue(&myQueue, file1);
-    enqueue(&myQueue, file2);
-    enqueue(&myQueue, file3);
 
-    File extractedFile;
-    while (!isQueueEmpty(&myQueue)) {
-        extractedFile = dequeue(&myQueue);
-        if (strcmp(extractedFile.name, "") != 0) { // Check if not error value
-            printf("Extracted file: Name: %s, Hash: %s, Path: %s\n", extractedFile.name, extractedFile.hashV, extractedFile.path);
-        }
-    }
+   printQueue(&myQueue);
 
     return 0;
 }

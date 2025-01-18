@@ -31,10 +31,7 @@ void listFiles(char *path, Queue *files_queue)
 		if(strcmp(dp->d_name, ".") == 0 || strcmp(dp->d_name, "..") == 0 ||strcmp(dp->d_name, "...") == 0){continue;}
 		fullpath = pathcat(path, dp->d_name);
         char *hashV = "hash45678901234567890123456789012";
-        File* file_temp = createFile(dp->d_name, hashV, fullpath);
-		//printf("File %d : %s. Path: %s\n", i, dp->d_name, fullpath);
-        
-        enqueue(files_queue, file_temp);
+        enqueue(files_queue, createFile(dp->d_name, hashV, fullpath));
         
 		free(fullpath);
 		i++;

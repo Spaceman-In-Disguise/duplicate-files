@@ -22,7 +22,7 @@ typedef struct Queue
 } Queue;
 
 
-extern File* createFile();
+extern File createFile();
 extern void initializeQueue();
 extern bool isQueueEmpty();
 extern void enqueue();
