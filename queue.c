@@ -38,7 +38,7 @@ void enqueue(Queue *queue, File value)
         printf("Error: Could not allocate memory for node.\n");
         exit(1);
     }
-    newNode->data = value; // Direct copy since members are fixed-size arrays
+    newNode->data = value;
     newNode->next = NULL;
 
     if (isQueueEmpty(queue))
@@ -57,7 +57,7 @@ File dequeue(Queue *queue)
     File errorValue = {"", "", ""}; // Error value, all members are empty strings
     if (isQueueEmpty(queue))
     {
-        printf("Error: Queue underflow.\n");
+        //printf("Error: Queue underflow.\n");
         return errorValue;
     }
 
@@ -99,7 +99,7 @@ void printQueue(Queue *queue){
     Node *currentNode = queue->front;
     File extractedFile;
     int i = 0;
-    while (currentNode != NULL) {
+    while (currentNode != NULL) { // Repeat till end of queue is reached
         File extractedFile = currentNode->data;
         printf("File %d, Name: %s, Hash: %s, Path: %s\n", i, extractedFile.name, extractedFile.hashV, extractedFile.path);
         i++;

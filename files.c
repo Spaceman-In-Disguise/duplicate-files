@@ -6,19 +6,27 @@
 
 char *pathcat(const char *str1, char *str2)
 {
-	char *res;
-	size_t strlen1 = strlen(str1);
-	size_t strlen2 = strlen(str2);
-	int i, j;
-	res = malloc((strlen1 + strlen2 + 1) * sizeof *res);
-	strcpy(res, str1);
-	for (i = strlen1, j = 0; ((i < (strlen1 + strlen2)) && (j < strlen2)); i++, j++)
-		res[i] = str2[j];
-	res[strlen1 + strlen2] = '\0';
-	return res;
+    // Calculate the total length of the resulting string
+    size_t len1 = strlen(str1);
+    size_t len2 = strlen(str2);
+    size_t total_len = len1 + len2 + 1; // +1 for the '/' and null terminator
+
+    // Allocate memory for the resulting string
+    char* result = (char*)malloc(total_len);
+    if (result == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return NULL;
+    }
+
+    // Concatenate the strings with '/' in between
+    strcpy(result, str1);
+    strcat(result, "/");
+    strcat(result, str2);
+
+    return result;
 }
 
-void listFiles(char *path, Queue *files_queue)
+void listFiles(char *path, Queue *files_queue, Queue *folders_queue)
 {
     
 	char *fullpath;
@@ -30,8 +38,14 @@ void listFiles(char *path, Queue *files_queue)
 	{
 		if(strcmp(dp->d_name, ".") == 0 || strcmp(dp->d_name, "..") == 0 ||strcmp(dp->d_name, "...") == 0){continue;}
 		fullpath = pathcat(path, dp->d_name);
-        char *hashV = "hash45678901234567890123456789012";
-        enqueue(files_queue, createFile(dp->d_name, hashV, fullpath));
+		if (dp -> d_type == DT_REG)
+		{
+        	enqueue(files_queue, createFile(dp->d_name, "", fullpath));
+		}
+		else if (dp -> d_type == DT_DIR)
+		{
+			enqueue(folders_queue, createFile(dp->d_name, "", fullpath));
+		}
         
 		free(fullpath);
 		i++;
