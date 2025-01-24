@@ -73,6 +73,7 @@ int main()
 
     freeQueue(&filesView);
     freeQueue(&folderView);
+    pthread_mutex_destroy(&lockFolders);
 
     return 0;
 }
