@@ -30,5 +30,5 @@ extern File dequeue();
 extern File peek();
 extern void freeQueue();
 extern void printQueue();
-
+extern void freeFile();
 #endif

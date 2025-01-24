@@ -7,16 +7,26 @@
 #include <stdbool.h>
 #include <string.h>
 
-File createFile(char* name, char* hashV, char* path) {
-    struct File* newFile = (struct File*)malloc(sizeof(struct File));
-    if (newFile == NULL) {
-        fprintf(stderr, "Memory allocation failed!\n");
-        exit(1);
+File createFile(const char *name, const char *hash, const char *path)
+{
+    File newFile;
+    newFile.name = malloc(strlen(name) + 1);
+    newFile.hashV = malloc(strlen(hash) + 1);
+    newFile.path = malloc(strlen(path) + 1);
+
+    if (newFile.name == NULL || newFile.hashV == NULL || newFile.path == NULL) {
+        // Handle allocation failure
+        free(newFile.name);
+        free(newFile.hashV);
+        free(newFile.path);
+        return (File){"", "", ""}; // Return an error value
     }
-    newFile->name = strdup(name); // Allocate memory for name and copy
-    newFile->hashV = strdup(hashV);     // Allocate memory for hashV and copy
-    newFile->path = strdup(path); // Allocate memory for path and copy
-    return *newFile;
+
+    strcpy(newFile.name, name);
+    strcpy(newFile.hashV, hash);
+    strcpy(newFile.path, path);
+
+    return newFile;
 }
 
 void initializeQueue(Queue *queue)
@@ -125,7 +135,7 @@ void freeFile(File* file) {
     }
 }
 
-// USED TO TEST THE MODULE
+/* USED TO TEST THE MODULE
 int main() {
     Queue myQueue;
     initializeQueue(&myQueue);
@@ -142,3 +152,4 @@ int main() {
     return 0;
 }
 
+*/

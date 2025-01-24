@@ -3,5 +3,6 @@
 
 extern char* pathcat();
 extern void listFiles();
+extern int isSpecialDirectory();
 
 #endif

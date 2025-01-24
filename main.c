@@ -14,7 +14,7 @@ int nThreads = 100;
 pthread_mutex_t lockFolders;
 // The first locks the acces to the top of the folder queue
 
-void *lookFiles(int id)
+void *lookFiles( )
 {
 
     while (!isQueueEmpty(&folderView) || readingFiles) // Repeat till no more folders to be found
@@ -48,20 +48,21 @@ void *lookFiles(int id)
         }
     }
     // TERMINO TODO FIN DE LA FUNCIÓN
+    return NULL;
 }
 
 int main()
 {
     initializeQueue(&filesView);
     initializeQueue(&folderView);
-    char *path = "/mnt/c/Users/usuario/Documents/UCV/test";
+    char *path = "/mnt/c/users/pvmir/documents/Doc-Mari/SO/proy1/duplicate-files";
     enqueue(&folderView, createFile("", "", path));
 
     pthread_mutex_init(&lockFolders, NULL);
     pthread_t agents[nThreads];
     for (int i = 0; i < nThreads; i++)
     {
-        pthread_create(&agents[i], NULL, &lookFiles, i);
+        pthread_create(&agents[i], NULL, lookFiles, NULL );
     }
     for (int i = 0; i < nThreads; i++)
     {
