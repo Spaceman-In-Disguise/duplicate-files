@@ -55,7 +55,7 @@ int main()
 {
     initializeQueue(&filesView);
     initializeQueue(&folderView);
-    char *path = "/mnt/c/users/pvmir/documents/Doc-Mari/SO/proy1/duplicate-files";
+    char *path = "/mnt/c/users/pvmir/documents/Doc-Mari/SO/proy1/duplicate-files/test";
     enqueue(&folderView, createFile("", "", path));
 
     pthread_mutex_init(&lockFolders, NULL);
@@ -70,6 +70,9 @@ int main()
     }
 
     printQueue(&filesView);
+
+    freeQueue(&filesView);
+    freeQueue(&folderView);
 
     return 0;
 }
