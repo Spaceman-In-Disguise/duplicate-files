@@ -51,11 +51,11 @@ void listFiles(char *path, Queue *files_queue, Queue *folders_queue)
 		fullpath = pathcat(path, dp->d_name);
 		if (dp -> d_type == DT_REG)
 		{
-        	enqueue(files_queue, createFile(dp->d_name, "", fullpath));
+        	enqueue(files_queue, createFile(dp->d_name, fullpath));
 		}
 		else if (dp -> d_type == DT_DIR)
 		{
-			enqueue(folders_queue, createFile(dp->d_name, "", fullpath));
+			enqueue(folders_queue, createFile(dp->d_name, fullpath));
 		}
         
 		free(fullpath);

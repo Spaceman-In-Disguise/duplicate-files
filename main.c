@@ -10,8 +10,14 @@
 
 Queue filesView, folderView;
 int readingFiles = 0;
-int nThreads = 100;
 pthread_mutex_t lockFolders;
+
+//Variables in parameters
+char *path = ".";
+int nThreads = 100;
+bool appMode = true;
+
+
 // The first locks the acces to the top of the folder queue
 
 void *lookFiles( )
@@ -47,16 +53,24 @@ void *lookFiles( )
             }
         }
     }
-    // TERMINO TODO FIN DE LA FUNCIÓN
     return NULL;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+
+    //Filter Arguments from command line
+    path = argv[4];
+    nThreads = atoi(argv[2]);
+    if (argv[6][0]=='l')
+    {
+        appMode = false;
+    }
+    
+    
     initializeQueue(&filesView);
     initializeQueue(&folderView);
-    char *path = ".";
-    enqueue(&folderView, createFile("", "", path));
+    enqueue(&folderView, createFile("", path));
 
     pthread_mutex_init(&lockFolders, NULL);
     pthread_t agents[nThreads];
@@ -74,6 +88,6 @@ int main()
     freeQueue(&filesView);
     freeQueue(&folderView);
     pthread_mutex_destroy(&lockFolders);
-
+    printf("\n%b",appMode);
     return 0;
 }
