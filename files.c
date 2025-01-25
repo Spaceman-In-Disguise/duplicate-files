@@ -33,9 +33,8 @@ int isSpecialDirectory(const char *name)
 }
 
 // List all files in the given directory
-void listFiles(char *path, Queue *files_queue, Queue *folders_queue, int hashMode)
+void listFiles(char *path, Queue *files_queue, Queue *folders_queue)
 {
-    char *hashv = ""; 
 	char *fullpath;
 	struct dirent *dp;
     
@@ -49,14 +48,13 @@ void listFiles(char *path, Queue *files_queue, Queue *folders_queue, int hashMod
 	{
 		if (isSpecialDirectory(dp->d_name)) { continue; }
 		fullpath = pathcat(path, dp->d_name);
-		
 		if (dp -> d_type == DT_REG)
 		{
-        	enqueue(files_queue, createFile(dp->d_name, fullpath, ""));
+        	enqueue(files_queue, createFile(dp->d_name, fullpath));
 		}
 		else if (dp -> d_type == DT_DIR)
 		{
-			enqueue(folders_queue, createFile(dp->d_name, fullpath, ""));
+			enqueue(folders_queue, createFile(dp->d_name, fullpath));
 		}
         
 		free(fullpath);

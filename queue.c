@@ -8,23 +8,20 @@
 #include <string.h>
 
 // Create a new file with the given name, hash, and path
-File createFile(const char *name, const char *path, const char* hashv)
+File createFile(const char *name, const char *path)
 {
     File newFile;
     newFile.name = malloc(strlen(name) + 1);
     newFile.path = malloc(strlen(path) + 1);
-    newFile.hashv = malloc(strlen(hashv) + 1);
-    if (newFile.name == NULL || newFile.path == NULL || newFile.hashv == NULL) {
+    if (newFile.name == NULL || newFile.path == NULL) {
         // Handle allocation failure
         free(newFile.name);
         free(newFile.path);
-        free(newFile.hashv);
-        return (File){"", "", ""}; // Return an error value
+        return (File){"", ""}; // Return an error value
     }
 
     strcpy(newFile.name, name);
     strcpy(newFile.path, path);
-    strcpy(newFile.hashv, hashv);
 
     return newFile;
 }

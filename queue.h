@@ -6,7 +6,6 @@ typedef struct File
 {
     char* name;
     char* path;
-    char* hashv;
 } File;
 
 typedef struct Node
