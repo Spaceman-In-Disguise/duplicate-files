@@ -27,22 +27,23 @@ pid_t create_fork() {
 }
 
 void child_process(int pipe_fd [2], char *filename) {
-    dup2(pipe_fd [1], STDOUT_FILENO);
+    dup2(pipe_fd [1], STDOUT_FILENO);  // Redirect stdout to pipe
     close(pipe_fd [0]);
     close(pipe_fd [1]);
-    execl("md5", "md5", filename, (char *)0);
+    execl("md5", "md5", filename, (char *)0);  // Execute md5
     die("execl");
 }
 
 void parent_process(int pipe_fd [2]) {
     char foo[4096];
     close(pipe_fd [1]);
-    read(pipe_fd [0], foo, sizeof(foo));
+    read(pipe_fd [0], foo, sizeof(foo));  // Read from pipe
     printf("%s", foo);
     close(pipe_fd [0]);
     wait(NULL);
 }
 
+// executes the code of the parent and the child
 void validate (char *filename) {
 
     if (pid == 0) {

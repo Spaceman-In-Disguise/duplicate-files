@@ -3,17 +3,15 @@
 
 #include "hash.h"
 
-// Prototipo de la función MDFile
-//int MDFile(const char *filename, char *hash, size_t hash_len);
 char filename[256];
 
-// Función para pedir el nombre del archivo al usuario
+// ask for the user file name
 void get_filename(char *filename, size_t size) {
     printf("Ingrese el nombre del archivo: ");
     scanf("%255s", filename); // Leer el nombre del archivo desde la entrada estándar
 }
 
-// Función para calcular y mostrar el hash MD5
+// calculate and print the md5 hash
 void calculate_and_print_md5(const char *filename) {
     char hashValue[33]; // Buffer para almacenar el valor hash
     int result = MDFile(filename, hashValue, sizeof(hashValue) - 1);

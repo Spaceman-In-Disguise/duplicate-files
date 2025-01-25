@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+// Create a new file with the given name, hash, and path
 File createFile(const char *name, const char *hash, const char *path)
 {
     File newFile;
@@ -40,6 +41,7 @@ bool isQueueEmpty(Queue *queue)
     return queue->front == NULL;
 }
 
+// Add a new file to the end of the queue
 void enqueue(Queue *queue, File value)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
@@ -62,6 +64,7 @@ void enqueue(Queue *queue, File value)
     queue->rear = newNode;
 }
 
+// Remove and return the file at the front of the queue
 File dequeue(Queue *queue)
 {
     File errorValue = {"", "", ""}; // Error value, all members are empty strings
@@ -85,6 +88,7 @@ File dequeue(Queue *queue)
     return value;
 }
 
+// Return the file at the front of the queue without removing it
 File peek(Queue *queue)
 {
     File errorValue = {"", "", ""}; // Error value, all members are empty strings
@@ -100,7 +104,7 @@ void freeQueue(Queue *queue)
 {
     while (!isQueueEmpty(queue))
     {
-        File file = dequeue(queue);
+        File file = dequeue(queue); // Remove the file from the queue
         freeFile(&file); // Free the file data
     }
 }
@@ -118,6 +122,7 @@ void printQueue(Queue *queue){
     }
 }
 
+// Free the memory allocated for the file data
 void freeFile(File* file) {
     if (file != NULL) {
         if (file->name != NULL) {

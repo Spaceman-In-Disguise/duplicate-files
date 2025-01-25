@@ -26,11 +26,13 @@ char *pathcat(const char *str1, char *str2)
     return result;
 }
 
+// Check if the directory name is special (e.g. "." or "..")
 int isSpecialDirectory(const char *name)
 {
 	return (strcmp(name, ".") == 0 || strcmp(name, "..") == 0 || strcmp(name, "...") == 0);
 }
 
+// List all files in the given directory
 void listFiles(char *path, Queue *files_queue, Queue *folders_queue)
 {
     
