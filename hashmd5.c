@@ -28,8 +28,8 @@ int compare_files(char* filenameA, char* filenameB, int mode){
     }
     if(strcmp(hashv1, hashv2) == 0){result = 1;}
     else{result = 0;}
-    printf("%s\n", hashv1);
-    printf("%s\n", hashv2);
+    //printf("%s\n", hashv1);
+    //printf("%s\n", hashv2);
     free(hashv1);
     free(hashv2);
     return result;

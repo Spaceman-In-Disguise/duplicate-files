@@ -9,15 +9,15 @@
 #include <semaphore.h>
 #include <pthread.h>
 
-Queue filesView, folderView;
+Queue filesView, folderView, oldFilesView;
 int readingFiles = 0;
 pthread_mutex_t lockFolders;
 
 //Variables in parameters
 char *path = ".";
 int nThreads = 100;
-int appMode = 0;
-
+int hashMode = 0;
+int dups;
 
 // The first locks the acces to the top of the folder queue
 
@@ -65,12 +65,13 @@ int main(int argc, char* argv[])
     nThreads = atoi(argv[2]);
     if (argv[6][0]=='l')
     {
-        appMode = 1;
+        hashMode = 1;
     }
     
     initializeQueue(&filesView);
     initializeQueue(&folderView);
-    enqueue(&folderView, createFile("", path, ""));
+    initializeQueue(&oldFilesView);
+    enqueue(&folderView, createFile("", path));
 
     pthread_mutex_init(&lockFolders, NULL);
     pthread_t agents[nThreads];
@@ -82,9 +83,47 @@ int main(int argc, char* argv[])
     {
         pthread_join(agents[i], NULL);
     }
- 
 
-    printQueue(&filesView);
+    //Check Duplicate Files
+    //We Will reuse code from the Queue data structure, and use path as a place to store the duplicate of the file
+    
+    Node *currentNode = filesView.front;
+    File file1, file2;
+    dups = 0;
+    int currentHasDup = 0;
+    while (currentNode != NULL) { // Repeat till end of queue is reached
+        Node *prevNode = currentNode;
+        Node *nextNode = currentNode->next;
+        Node *auxNode;
+        file1 = currentNode->data;
+        while (nextNode != NULL)
+        {
+            file2 = nextNode->data;
+
+            if(compare_files(file1.path, file2.path, hashMode)){
+                enqueue(&oldFilesView, createFile(file1.name, file2.name));
+                prevNode->next = nextNode->next;
+                auxNode = nextNode;
+                nextNode = prevNode;
+                free(auxNode);
+                if(currentHasDup){dups+=1;}
+                else{dups+=2;}
+                currentHasDup = 1;
+            
+            }
+
+            prevNode = nextNode;
+            nextNode = nextNode->next;
+        }
+        
+        currentNode = currentNode ->next;
+        currentHasDup = 0;
+        dequeue(&filesView);
+    }
+    
+
+    printf("Se han encontrado %d archivos duplicados.\n", dups);
+    printQueue(&oldFilesView);
 
     freeQueue(&filesView);
     freeQueue(&folderView);

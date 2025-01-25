@@ -112,7 +112,7 @@ void printQueue(Queue *queue){
     int i = 0;
     while (currentNode != NULL) { // Repeat till end of queue is reached
         File extractedFile = currentNode->data;
-        printf("File %d, Name: %s, Path: %s\n", i, extractedFile.name, extractedFile.path);
+        printf("%s es duplicado de %s\n", extractedFile.name, extractedFile.path);
         i++;
         currentNode = currentNode ->next;
     }
