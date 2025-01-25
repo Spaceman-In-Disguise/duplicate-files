@@ -4,6 +4,7 @@
 #include <dirent.h>
 #include "queue.h"
 #include "files.h"
+#include "hash.h"
 #include <stdbool.h>
 #include <semaphore.h>
 #include <pthread.h>
@@ -15,14 +16,14 @@ pthread_mutex_t lockFolders;
 //Variables in parameters
 char *path = ".";
 int nThreads = 100;
-bool appMode = true;
+int appMode = 0;
 
 
 // The first locks the acces to the top of the folder queue
 
 void *lookFiles( )
 {
-
+    //Add files to folder
     while (!isQueueEmpty(&folderView) || readingFiles) // Repeat till no more folders to be found
     {
         if (!isQueueEmpty(&folderView)) // Not Empty
@@ -64,13 +65,12 @@ int main(int argc, char* argv[])
     nThreads = atoi(argv[2]);
     if (argv[6][0]=='l')
     {
-        appMode = false;
+        appMode = 1;
     }
-    
     
     initializeQueue(&filesView);
     initializeQueue(&folderView);
-    enqueue(&folderView, createFile("", path));
+    enqueue(&folderView, createFile("", path, ""));
 
     pthread_mutex_init(&lockFolders, NULL);
     pthread_t agents[nThreads];
@@ -82,12 +82,12 @@ int main(int argc, char* argv[])
     {
         pthread_join(agents[i], NULL);
     }
+ 
 
     printQueue(&filesView);
 
     freeQueue(&filesView);
     freeQueue(&folderView);
     pthread_mutex_destroy(&lockFolders);
-    printf("\n%b",appMode);
     return 0;
 }

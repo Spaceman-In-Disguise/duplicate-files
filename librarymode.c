@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 #include "hash.h"
 
@@ -12,14 +14,17 @@ void get_filename(char *filename, size_t size) {
 }
 
 // calculate and print the md5 hash
-void calculate_and_print_md5(const char *filename) {
-    char hashValue[33]; // Buffer para almacenar el valor hash
-    int result = MDFile(filename, hashValue, sizeof(hashValue) - 1);
+char* calculate_md5(char *filename) {
+    char foo[33]; // Buffer para almacenar el valor hash
+    int result = MDFile(filename, foo, sizeof(foo) - 1);
 
     if (result == 0) {
         printf("Error calculating MD5 hash\n");
     } else {
-        printf("Output: %s\n", hashValue);
+        //printf("Output: %s\n", hashValue);
+        char* hashv = (char*)malloc(strlen(foo) + 1);
+        strncpy(hashv, foo, 32);
+        return hashv;
     }
 }
 
