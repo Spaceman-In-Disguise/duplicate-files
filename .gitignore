@@ -1,0 +1,12 @@
+.vscode
+*.jpg
+*.png
+*.o
+*.gch
+*.txt
+*.exe
+*.tar.*
+*.tar
+!mode/md5-lib/README.txt
+output
+obj

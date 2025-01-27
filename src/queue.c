@@ -13,7 +13,8 @@ File createFile(const char *name, const char *path)
     File newFile;
     newFile.name = malloc(strlen(name) + 1);
     newFile.path = malloc(strlen(path) + 1);
-    if (newFile.name == NULL || newFile.path == NULL) {
+    if (newFile.name == NULL || newFile.path == NULL)
+    {
         // Handle allocation failure
         free(newFile.name);
         free(newFile.path);
@@ -66,7 +67,7 @@ File dequeue(Queue *queue)
     File errorValue = {"", ""}; // Error value, all members are empty strings
     if (isQueueEmpty(queue))
     {
-        //printf("Error: Queue underflow.\n");
+        // printf("Error: Queue underflow.\n");
         return errorValue;
     }
 
@@ -101,31 +102,37 @@ void freeQueue(Queue *queue)
     while (!isQueueEmpty(queue))
     {
         File file = dequeue(queue); // Remove the file from the queue
-        freeFile(&file); // Free the file data
+        freeFile(&file);            // Free the file data
     }
 }
 
-void printQueue(Queue *queue){
-    
+void printQueue(Queue *queue)
+{
+
     Node *currentNode = queue->front;
     File extractedFile;
     int i = 0;
-    while (currentNode != NULL) { // Repeat till end of queue is reached
+    while (currentNode != NULL)
+    { // Repeat till end of queue is reached
         File extractedFile = currentNode->data;
         printf("%s es duplicado de %s\n", extractedFile.name, extractedFile.path);
         i++;
-        currentNode = currentNode ->next;
+        currentNode = currentNode->next;
     }
 }
 
 // Free the memory allocated for the file data
-void freeFile(File* file) {
-    if (file != NULL) {
-        if (file->name != NULL) {
+void freeFile(File *file)
+{
+    if (file != NULL)
+    {
+        if (file->name != NULL)
+        {
             free(file->name);
             file->name = NULL;
         }
-        if (file->path != NULL) {
+        if (file->path != NULL)
+        {
             free(file->path);
             file->path = NULL;
         }
