@@ -2,7 +2,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 LIST_C = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(LIST_C:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-OPTIONS = gcc -Wall -pthread -I include
+OPTIONS = gcc -g -Wall -pthread -I include
 EXECUTE = duplicados
 EXECUTE_DIR = output
 MD5LIB = mode/md5-lib/libmd5.a

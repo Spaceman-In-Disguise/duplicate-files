@@ -17,7 +17,7 @@ void get_filename(char *filename, size_t size)
 char *calculate_md5(char *filename)
 {
     char foo[33]; // Buffer para almacenar el valor hash
-    int result = MDFile(filename, foo, sizeof(foo) - 1);
+    int result = MDFile(filename, foo, sizeof(foo));
 
     if (result == 0)
     {
@@ -26,8 +26,8 @@ char *calculate_md5(char *filename)
     else
     {
         // printf("Output: %s\n", hashValue);
-        char *hashv = (char *)malloc(strlen(foo) + 1);
-        strncpy(hashv, foo, 32);
+        char *hashv = (char *)malloc(strlen(foo) +1);
+        strlcpy(hashv, foo, 32);
         return hashv;
     }
 }

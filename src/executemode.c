@@ -58,7 +58,7 @@ char *parent_process(int pipe_fd[2])
     close(pipe_fd[0]);
     wait(NULL);
     char *hashv = (char *)malloc(strlen(foo) + 1);
-    strncpy(hashv, foo, 32);
+    strlcpy(hashv, foo, 32);
     return hashv;
 }
 
